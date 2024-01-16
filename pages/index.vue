@@ -1,3 +1,3 @@
 <template>
-  <div>HELLO THIS IS INDEX PAGE</div>
+  <div>HELLO THIS IS DASHBOARD PAGE</div>
 </template>
