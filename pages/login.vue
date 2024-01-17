@@ -7,14 +7,21 @@ const user = useSupabaseUser();
 
 const email = ref("");
 const password = ref("");
-const isSignUp = ref(true);
+const isLoggedIn = ref(true);
+const isUserCreated = ref(false);
 
 const signUp = async () => {
   const { data, error } = await client.auth.signUp({
     email: email.value,
     password: password.value,
   });
-  console.log("user", data);
+  if (data.user?.aud) {
+    isUserCreated.value = true;
+    isLoggedIn.value = !isLoggedIn.value;
+    email.value = "";
+    password.value = "";
+  }
+  console.log("user registered", data);
   console.log("error", error);
 };
 
@@ -23,7 +30,7 @@ const login = async () => {
     email: email.value,
     password: password.value,
   });
-  console.log("user", data);
+  console.log("user logged in", data);
   console.log("error", error);
 };
 
@@ -39,22 +46,23 @@ onMounted(() => {
 <template>
   <div>
     <h1>Welcome to the budget app!</h1>
+    <h2 v-if="isUserCreated">Check your email for confirmation</h2>
     <form
       @submit.prevent="
         () => {
-          isSignUp ? signUp() : login();
+          isLoggedIn ? login() : signUp();
         }
       "
     >
       <input type="email" placeholder="Email" v-model="email" />
       <input type="password" placeholder="Password" v-model="password" />
-      <button type="submit">{{ isSignUp ? "Sign up" : "Login" }}</button>
+      <button type="submit">{{ isLoggedIn ? "Login" : "Sign up" }}</button>
     </form>
-    <button @click="isSignUp = !isSignUp">
+    <button @click="isLoggedIn = !isLoggedIn">
       {{
-        isSignUp
-          ? "Already have an account? Click here to login"
-          : "Click here to sign up"
+        isLoggedIn
+          ? "Don't have an account yet? Click here to sign up"
+          : "Click here to login"
       }}
     </button>
   </div>
