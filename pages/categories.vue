@@ -1,27 +1,33 @@
 <script setup lang="ts">
-const client = useSupabaseClient();
+import type { Income } from "~/types/database.types";
+
+const client = useSupabaseClient<Income[]>();
 const user = useSupabaseUser();
 
 const newIncomeName = ref("");
 
-const { data: incomes } = await useFetch("/api/income", {
+const { data: incomes } = await useFetch<Income[]>("/api/user-income-cat", {
   headers: useRequestHeaders(["cookie"]),
   key: "incomes-from-server",
 });
 
 const addNewIncome = async () => {
-  const { data } = await client
-    .from("income_categories")
-    .insert({ user_id: user.value.id, name: newIncomeName.value })
-    .select("name,category_id")
-    .single();
-
-  incomes.value?.push(data);
+  if (user.value) {
+    const { data } = await client
+      .from("income_categories")
+      .insert({ user_id: user.value.id, name: newIncomeName.value })
+      .select("name,category_id")
+      .single();
+    if (data) {
+      incomes.value?.push(data);
+    }
+  }
 };
 
 const deleteIncome = async (value: string) => {
-  incomes.value = incomes.value?.filter((i) => i.category_id !== value);
-
+  if (incomes.value) {
+    incomes.value = incomes.value?.filter((i) => i.category_id !== value);
+  }
   const { error } = await client
     .from("income_categories")
     .delete()
