@@ -1,19 +1,13 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="globalWrapper">
-    <NuxtLayout>
-      <NuxtPage />
-    </NuxtLayout>
-  </div>
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
 </template>
 
 <style>
 @import url("~/assets/normalize.css");
 @import url("~/assets/global.css");
-
-.globalWrapper {
-  width: 100%;
-  height: 100%;
-}
+@import url("~/assets/font_colors.css");
 </style>
