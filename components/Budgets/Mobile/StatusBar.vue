@@ -2,8 +2,6 @@
 defineProps(["budgets"]);
 
 const { date, walkNextMonth, walkPrevMonth } = useCurrentDate();
-
-console.log(date.value);
 </script>
 
 <template>

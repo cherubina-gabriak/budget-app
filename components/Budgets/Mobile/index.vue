@@ -1,16 +1,11 @@
 <script setup lang="ts">
-import type { Budget } from "~/types/database.types";
-
 const props = defineProps(["budgets"]);
-
-const client = useSupabaseClient<Budget[]>();
-const user = useSupabaseUser();
 </script>
 
 <template>
   <div class="budgets-wrapper">
-    <BudgetsMobileTransactions :budgets="budgets" />
-    <BudgetsMobileTransactions :budgets="budgets" />
+    <BudgetsMobileTransactions :budgets="budgets" :isIncome="true" />
+    <BudgetsMobileTransactions :budgets="budgets" :isIncome="false" />
     <BudgetsMobileStatusBar :budgets="budgets" />
   </div>
 </template>
