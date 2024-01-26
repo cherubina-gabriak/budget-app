@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import type { NuxtLink } from "#build/components";
+import { LINKS_INFO } from "~/constants";
 </script>
 
 <template>
   <ul>
-    <li><NuxtLink to="/">Dashboard</NuxtLink></li>
-    <li><NuxtLink to="/budgets">Budgets</NuxtLink></li>
-    <li><NuxtLink to="/categories">Categories</NuxtLink></li>
-    <li><NuxtLink to="/stats">Statistics</NuxtLink></li>
-    <li><NuxtLink to="/goals">Goals</NuxtLink></li>
+    <NavbarButton
+      v-for="link in LINKS_INFO"
+      :text="link.name"
+      :path="link.path"
+      :icon="link.icon"
+    />
   </ul>
 </template>
 
@@ -16,16 +17,13 @@ import type { NuxtLink } from "#build/components";
 ul {
   list-style: none;
   position: sticky;
-  height: 10%;
+  height: 7%;
   top: 100%;
   background-color: #26282b;
   display: flex;
   justify-content: space-around;
-  padding: 0rem;
-  margin: 0rem;
-  font-size: 0.8rem;
-}
-a {
-  color: var(--navbar_font_color);
+  padding: 0;
+  margin: 0;
+  font-size: 0.7rem;
 }
 </style>
