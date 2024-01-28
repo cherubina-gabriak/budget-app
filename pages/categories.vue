@@ -38,10 +38,15 @@ const deleteIncome = async (value: string) => {
 };
 
 const renameIncome = async (value: string) => {};
+
+let { data: income_categories, error } = await client
+  .from("income_categories")
+  .select("name");
 </script>
 
 <template>
   <div>HELLO THIS IS CATEGORIES PAGE</div>
+  <div>{{ incomes }}</div>
   <h3>From server:</h3>
   <div v-for="income in incomes" class="income_wrapper">
     <div>{{ income.name }}</div>

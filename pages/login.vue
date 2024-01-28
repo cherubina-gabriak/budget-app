@@ -14,15 +14,13 @@ const signUp = async () => {
   const { data, error } = await client.auth.signUp({
     email: email.value,
     password: password.value,
+    options: {
+      emailRedirectTo: "http://localhost:3000/loginSuccess",
+    },
   });
-  if (data.user?.aud) {
-    isUserCreated.value = true;
-    isLoggedIn.value = !isLoggedIn.value;
-    email.value = "";
-    password.value = "";
-  }
-  console.log("user registered", data);
-  console.log("error", error);
+  isUserCreated.value = !isUserCreated.value;
+  email.value = "";
+  password.value = "";
 };
 
 const login = async () => {
@@ -34,12 +32,10 @@ const login = async () => {
   console.log("error", error);
 };
 
-onMounted(() => {
-  watchEffect(() => {
-    if (user.value) {
-      navigateTo("/");
-    }
-  });
+watchEffect(() => {
+  if (user.value) {
+    navigateTo("/");
+  }
 });
 </script>
 

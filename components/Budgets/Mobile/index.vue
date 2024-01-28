@@ -1,11 +1,37 @@
 <script setup lang="ts">
-const props = defineProps(["budgets"]);
+import type { Budget, Category } from "~/types/database.types";
+
+const { data: budgetsFromServer } = await useFetch<Budget[]>(
+  "/api/user-budgets",
+  {
+    headers: useRequestHeaders(["cookie"]),
+    key: "budgets-from-server",
+  }
+);
+
+const { data: categoriesFromServer } = await useFetch<Category[]>(
+  "/api/user-income-cat",
+  {
+    headers: useRequestHeaders(["cookie"]),
+    key: "categories-from-server",
+  }
+);
+// ВОЗМОЖНО useFetch УЖЕ РЕАКТИВНЫЙ ?  НЕ НАДО КОМПЬЮТИТЬ? НАДО НАПИСАТЬ ФУНКЦИЮ КОТОРАЯ ДОБАВЛЯЕТ
+// ИЛИ МОЖЕТ ДОБАВИТЬ ПЛАГИНЫ, КОТОРЫЕ СКИДЫВАЮТ СОСТОЯНИЕ В РЕАКТИВНЫЙ СТЭЙТ??
+
+const budgets = computed(() => {
+  return budgetsFromServer.value;
+});
+
+const categories = computed(() => {
+  return categoriesFromServer.value;
+});
 </script>
 
 <template>
   <div class="budgets-wrapper">
-    <BudgetsMobileTransactions :budgets="budgets" :isIncome="true" />
-    <BudgetsMobileTransactions :budgets="budgets" :isIncome="false" />
+    <BudgetsMobileTransactionsContainer :budgets="budgets" :isIncome="true" />
+    <BudgetsMobileTransactionsContainer :budgets="budgets" :isIncome="false" />
     <BudgetsMobileStatusBar :budgets="budgets" />
   </div>
 </template>

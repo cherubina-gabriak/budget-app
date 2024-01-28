@@ -1,12 +1,22 @@
 <script setup lang="ts">
 definePageMeta({
   layout: false,
-  middleware: ["sign-up-success"],
 });
+const user = useSupabaseUser();
+
+watch(
+  user,
+  () => {
+    if (user.value) {
+      return navigateTo("/");
+    }
+  },
+  { immediate: true }
+);
 </script>
 <template>
   <div class="wrapper">
-    <h1 class="confirmation">You confirmed your account!</h1>
+    <h1 class="confirmation">You successfully logged in!</h1>
     <span>Redirecting...</span>
   </div>
 </template>

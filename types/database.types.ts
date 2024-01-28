@@ -6,3 +6,7 @@ export type Budget = {
   month: number;
   base_amount: number;
 };
+export type Category = {
+  category_id: string;
+  name: string;
+};
